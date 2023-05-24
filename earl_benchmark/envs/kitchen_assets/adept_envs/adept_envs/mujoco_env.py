@@ -17,7 +17,7 @@
 # limitations under the License.
 
 
-import collections
+import collections.abc as collections
 import os
 import time
 from typing import Dict, Optional

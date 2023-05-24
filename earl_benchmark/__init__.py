@@ -122,7 +122,8 @@ class EARLEnvs(object):
       except:
         raise Exception("Must install pybullet to use minitaur env")
       #train_env = minitaur_gym_env.MinitaurBulletEnv()
-      train_env = minitaur_gym_env.GoalConditionedMinitaurBulletEnv()
+      goal_locations = [[0.4, 0.0], [0.2, 0.0], [-0.2, 0.0], [-0.4, 0.0]]
+      train_env = minitaur_gym_env.GoalConditionedMinitaurBulletEnv(goal_locations=goal_locations)
 
     elif self._env_name == 'sawyer_door':
       from earl_benchmark.envs import sawyer_door
@@ -166,7 +167,8 @@ class EARLEnvs(object):
         from earl_benchmark.envs import minitaur_gym_env
       except:
         raise Exception("Must install pybullet to use minitaur env")
-      eval_env = minitaur_gym_env.GoalConditionedMinitaurBulletEnv()
+      goal_locations = [[0.4, 0.0], [0.2, 0.0], [-0.2, 0.0], [-0.4, 0.0]]
+      eval_env = minitaur_gym_env.GoalConditionedMinitaurBulletEnv(goal_locations=goal_locations)
 
     return persistent_state_wrapper.PersistentStateWrapper(eval_env, episode_horizon=self._eval_horizon)
 
@@ -213,8 +215,9 @@ class EARLEnvs(object):
       cur_env = self.get_eval_env()
       reset_states = []
       while len(reset_states) < self._num_initial_state_samples:
-        reset_states.append(cur_env.reset())
-        reset_states = list(set(reset_states))
+        reset_state = cur_env.reset()
+        if not any(np.allclose(reset_state, state) for state in reset_states):
+            reset_states.append(reset_state)
 
       return np.stack(reset_states)
 
@@ -245,3 +248,4 @@ class EARLEnvs(object):
       return forward_demos, reverse_demos
     except:
       print('please download the demonstrations corresponding to ', self._env_name)
+      return None, None

@@ -3,8 +3,8 @@
 TODO: we want to keep track of the number of resets, especially when the environment underneath can return done=True (irreversible set of environments)
 """
 
-from gym import Wrapper
-
+from gym import Wrapper, spaces
+import numpy as np
 class PersistentStateWrapper(Wrapper):
 
   def __init__(self, env, episode_horizon):
