@@ -5,11 +5,11 @@ setup(
     packages=['earl_benchmark'],
     version='0.0.1',
     install_requires=[
-        'gym==0.23.1',
+        'gym',
         'metaworld',
         'mujoco-py==2.1.2.14',
-        'numpy==1.22.2',
-        'matplotlib==3.4.2',
+        'numpy',
+        'matplotlib',
         'scipy',
         'pybullet==3.2.0',
         'termcolor==1.1.0'
