@@ -4,6 +4,7 @@ setup(
     name='earl_benchmark',
     packages=['earl_benchmark'],
     version='0.0.1',
+    packages=setuptools.find_packages(),
     install_requires=[
         'gym',
         'metaworld',
